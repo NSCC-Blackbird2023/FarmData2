@@ -13,3 +13,4 @@ jobs:
         with:
           script: |
             console.log(context.payload)
+            //(Closes|Fixes) #[0-9]+ 
