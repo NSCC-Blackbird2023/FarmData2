@@ -1,0 +1,15 @@
+name: Pull Request Test
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  pull-request-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@6
+        with:
+          script: |
+            console.log(context.payload)
