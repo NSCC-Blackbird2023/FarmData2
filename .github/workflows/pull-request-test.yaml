@@ -3,7 +3,7 @@ name: Pull Request Test
 on:
   workflow_dispatch:
   pull_request:
-    types: [opened, synchronize]
+    types: [edited, synchronize, opened, reopened]
 
 jobs:
   pull-request-test:
@@ -12,5 +12,10 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            console.log(context.payload)
-            //(Closes|Fixes) #[0-9]+ 
+            //console.log(context.payload)
+            let isLinked=false;
+            let invalidIssue=false;
+            let body = context.payload.pull_request.body;
+            const re = /(Closes|Fixes) #[0-9]+ /g
+            const matches = body.match(re);
+            console.log(matches);
