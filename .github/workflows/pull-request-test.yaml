@@ -20,7 +20,10 @@ jobs:
             let referencesOnlyOneIssue = false;
             let body = context.payload.pull_request.body;
 
-            let issues = await github.rest.issues.get();
+            let issues = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
             console.log(issues);
 
             const re = /(Closes|Fixes) #[0-9]+ /g;
