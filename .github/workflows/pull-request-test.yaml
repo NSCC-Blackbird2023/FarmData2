@@ -21,8 +21,10 @@ jobs:
             let referencesOnlyOneIssue = false;
             let body = context.payload.pull_request.body;
 
-            let issues = await github.rest.issues.get({
-              owner: context.repo.owner,
+
+            let foo = await fetch(
+
+            let issues = github.rest.issues.get({
               repo: context.repo.repo,
             });
             console.log(issues);
