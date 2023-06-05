@@ -12,12 +12,14 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            console.log(context.payload)
+            //console.log(context.payload)
+            //console.log(context.payload.pull_request.body);
+            console.log(github.issues)
             let isLinked=false;
             let isInvalidIssue=false;
             let referencesOnlyOneIssue = false;
             let body = context.payload.pull_request.body;
-            //console.log(body);
+
             const re = /(Closes|Fixes) #[0-9]+ /g;
             const matches = body.match(re);
             console.log(matches);
