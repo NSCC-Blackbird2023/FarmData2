@@ -13,25 +13,32 @@ jobs:
         with:
           repo-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+            github.rest.issues.get({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+          
             //console.log(context.payload)
             //console.log(context.payload.pull_request.body);
             //console.log(github.issues)
-            let isLinked=false;
-            let isInvalidIssue=false;
-            let referencesOnlyOneIssue = false;
-            let body = context.payload.pull_request.body;
-
-            let issues = github.rest.issues.get({
-              repo: context.repo.repo,
-            });
-            console.log(issues);
-
-            const re = /(Closes|Fixes) #[0-9]+ /g;
-            const matches = body.match(re);
-            console.log(matches);
             
-            if(matches){
+            //let isLinked=false;
+            //let isInvalidIssue=false;
+            //let referencesOnlyOneIssue = false;
+            //let body = context.payload.pull_request.body;
+
+            //let issues = github.rest.issues.get({
+            //  repo: context.repo.repo,
+            //});
+            //console.log(issues);
+
+            //const re = /(Closes|Fixes) #[0-9]+ /g;
+            //const matches = body.match(re);
+            //console.log(matches);
+            
+            //if(matches){
               
-            }
+            //}
             
             //(Closes|Fixes) #[0-9]+ 
