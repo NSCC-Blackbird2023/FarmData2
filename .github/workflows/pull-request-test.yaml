@@ -16,6 +16,7 @@ jobs:
             let isLinked=false;
             let invalidIssue=false;
             let body = context.payload.pull_request.body;
+            console.log(body);
             const re = /(Closes|Fixes) #[0-9]+ /g;
             const matches = body.match(re);
             console.log(matches);
