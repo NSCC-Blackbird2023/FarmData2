@@ -12,7 +12,7 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            console.log(context.payload);
+            console.log(context);
             
 #            const ISSUE_LINK_REGEX = /(Closes|Fixes) #[0-9]+ /g;
 #            const REPO_BASE_API_URL = `https://api.github.com/repos/${context.repo.owner}/${context.repo.repo}`;
