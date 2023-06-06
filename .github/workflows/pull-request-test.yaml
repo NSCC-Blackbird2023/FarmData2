@@ -30,7 +30,6 @@ jobs:
 
             core.debug('Checking for occurrences of any issue links in the Pull Request description');
             let matches = context.payload.pull_request.body.match(ISSUE_LINK_REGEX);
-            console.log(matches)
             if(!matches){
               core.setFailed('No Issue Link Matches found');
               return;
@@ -38,6 +37,7 @@ jobs:
 
             core.debug('Checking that any found issue links in the Pull Request description reference the same issue')
             matches = matches.map(item => item.replace(/\D/g, '')); //extracting issue numbers
+            console.log(matches);
             if(!matches.every((match, index, arr) =>  match === arr[0])){
               core.setFailed('Multiple links referencing different issues');
               return;
