@@ -13,9 +13,9 @@ jobs:
         with:
           repo-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const response = await fetch('https://official-joke-api.appspot.com/random_joke')
-            console.log(response)
-            console.log('test123')
+            const response = await fetch('https://official-joke-api.appspot.com/random_joke');
+            const data = await response.json();
+            console.log(data)
             
             //github.rest.issues.get({
             //  issue_number: context.issue.number,
