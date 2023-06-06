@@ -13,13 +13,5 @@ jobs:
         with:
           script: |
             const { payload } = context;
-            const ORG = payload.organization.login;
-            const REPO = payload.repository.name;
-            const REPO_BASE_API_URL = `https://api.github.com/repos/${ORG}/${REPO}`;
-            const ISSUE_LINK_REGEX = /(Closes|Fixes) #[0-9]+ /g;
-            
-            console.log('Checking for existance of Pull Request data);
-            
-            console.log(payload);
             
             
