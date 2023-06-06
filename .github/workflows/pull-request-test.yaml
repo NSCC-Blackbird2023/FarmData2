@@ -13,8 +13,8 @@ jobs:
         with:
           script: |
             console.log(context);
-            const ORG = context.organization.login;
-            const REPO = context.repository.name;
+            const ORG = context.payload.organization.login;
+            const REPO = context.payload.repository.name;
             
             console.log(ORG)
             console.log(REPO)
