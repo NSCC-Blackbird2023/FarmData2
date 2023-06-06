@@ -22,35 +22,4 @@ jobs:
             
             console.log(payload);
             
-#             if(!context.payload.pull_request){
-#               //core.setFailed('There was no Pull Request data available to confirm existance of issue link');
-#               return;
-#             } else {
-#               console.log('Pull Request data found');
-#             }
-            
-#             core.debug('Checking for occurrences of any issue links in the Pull Request description');            
-#             const matches = context.payload.pull_request.body.match(ISSUE_LINK_REGEX);
-#             console.log(matches)
-#             if(!matches){
-#               core.setFailed('No Issue Link Matches found');
-#               return;
-#             }
-            
-#             core.debug('Checking that any found issue links in the Pull Request description reference the same issue')
-#             matches = matches.map(item => item.replace(/\D/g, '')); //extracting issue numbers
-#             if(!matches.every((match, index, arr) =>  match === arr[0])){
-#               core.setFailed('Multiple links referencing different issues');
-#               return;
-#             }
-            
-#             core.debug('Checking that referenced issue number exists as a valid issue');
-#             //retrieving all existing issues from gh api
-#             const response = await fetch(`${REPO_BASE_API_URL}/issues`)
-#             const issues = await response.json();
-#             if(!issues.some(issue => issue.number == matches[0])){
-#               core.setFailed('Referenced issue number is not found in list of issues');
-#               return;
-#             }
-            
             
