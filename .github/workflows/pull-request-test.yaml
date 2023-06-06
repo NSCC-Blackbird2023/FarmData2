@@ -12,11 +12,15 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            console.log(context.payload);
+            console.log(context);
+            const { organization.login: ORG, repository.name: REPO } = context;
             
-#            const ISSUE_LINK_REGEX = /(Closes|Fixes) #[0-9]+ /g;
-#            const REPO_BASE_API_URL = `https://api.github.com/repos/${context.repo.owner}/${context.repo.repo}`;
-#            console.log(REPO_BASE_API_URL);
+            console.log(ORG)
+            console.log(REPO)
+            
+            const ISSUE_LINK_REGEX = /(Closes|Fixes) #[0-9]+ /g;
+            const REPO_BASE_API_URL = `https://api.github.com/repos/${ORG}/${REPO}`;
+            console.log(REPO_BASE_API_URL);
 
 
 #            console.log('Checking for existance of Pull Request data);
