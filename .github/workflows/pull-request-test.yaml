@@ -12,26 +12,18 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            console.log(context);
             const ORG = context.payload.organization.login;
             const REPO = context.payload.repository.name;
-            
-            console.log(ORG)
-            console.log(REPO)
-            
-            const ISSUE_LINK_REGEX = /(Closes|Fixes) #[0-9]+ /g;
             const REPO_BASE_API_URL = `https://api.github.com/repos/${ORG}/${REPO}`;
-            console.log(REPO_BASE_API_URL);
-
-
-#            console.log('Checking for existance of Pull Request data);
+            const ISSUE_LINK_REGEX = /(Closes|Fixes) #[0-9]+ /g;
             
-#            if(!context.payload.pull_request){
-#              core.setFailed('There was no Pull Request data available to confirm existance of issue link');
-#              return;
-#            } else {
-#              console.log('Pull Request data found');
-#            }
+            console.log('Checking for existance of Pull Request data);
+            if(!context.payload.pull_request){
+              core.setFailed('There was no Pull Request data available to confirm existance of issue link');
+              return;
+            } else {
+              console.log('Pull Request data found');
+            }
             
 #             core.debug('Checking for occurrences of any issue links in the Pull Request description');            
 #             const matches = context.payload.pull_request.body.match(ISSUE_LINK_REGEX);
