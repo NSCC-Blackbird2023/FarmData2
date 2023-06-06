@@ -13,11 +13,14 @@ jobs:
         with:
           repo-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            github.rest.issues.get({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            })
+            const { data } = await fetch('https://official-joke-api.appspot.com/random_joke')
+            console.log(data)
+            
+            //github.rest.issues.get({
+            //  issue_number: context.issue.number,
+            //  owner: context.repo.owner,
+            //  repo: context.repo.repo,
+            //})
           
             //console.log(context.payload)
             //console.log(context.payload.pull_request.body);
