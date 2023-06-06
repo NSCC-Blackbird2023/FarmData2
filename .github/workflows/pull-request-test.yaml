@@ -14,9 +14,12 @@ jobs:
           script: |
             const ISSUE_LINK_REGEX_TO_MATCH = /(Closes|Fixes) #[0-9]+ /g;
             
+            console.log(context.repo);
+            
             // check that PR description contains required issue link
             if(!context.payload.pull_request){
               core.setFailed('There was no Pull Request data available to confirm issue link');
+              return;
             }
             
             let prBody = context.payload.pull_request.body;
