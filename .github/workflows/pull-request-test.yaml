@@ -12,7 +12,6 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-          
             const { payload } = context;
             const ORG = payload.organization.login;
             const REPO = payload.repository.name;
