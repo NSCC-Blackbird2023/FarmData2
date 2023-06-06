@@ -12,11 +12,21 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
+            const ISSUE_LINK_REGEX_TO_MATCH = /(Closes|Fixes) #[0-9]+ /g;
+            
+            // check that PR description contains required issue link
+            if(!context.payload.pull_request){
+              core.setFailed('There was no Pull Request data available to confirm issue link');
+            }
+            
+            let prBody = context.payload.pull_request.body;
+            
+          
             const response = await fetch('https://official-joke-api.appspot.com/random_joke');
             const data = await response.json();
             console.log(data)
             
-            core.setFailed("No Linked Issue Found!");
+            //core.setFailed("No Linked Issue Found!");
           
             //console.log(context.payload)
             //console.log(context.payload.pull_request.body);
