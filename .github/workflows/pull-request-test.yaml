@@ -12,13 +12,16 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            const ORG = context.payload.organization.login;
-            const REPO = context.payload.repository.name;
+          
+            const { payload } = context;
+            const ORG = payload.organization.login;
+            const REPO = payload.repository.name;
             const REPO_BASE_API_URL = `https://api.github.com/repos/${ORG}/${REPO}`;
             const ISSUE_LINK_REGEX = /(Closes|Fixes) #[0-9]+ /g;
             
             console.log('Checking for existance of Pull Request data);
             
+            console.log(payload);
             
             if(!context.payload.pull_request){
               //core.setFailed('There was no Pull Request data available to confirm existance of issue link');
