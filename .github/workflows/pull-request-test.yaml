@@ -12,46 +12,36 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            const ISSUE_LINK_REGEX_TO_MATCH = /(Closes|Fixes) #[0-9]+ /g;
-            
-            console.log(context.repo);
-            
-            // check that PR description contains required issue link
+            const ISSUE_LINK_REGEX = /(Closes|Fixes) #[0-9]+ /g;
+            const REPO_BASE_API_URL = `https://api.github.com/repos/${context.repo.owner}/${context.repo.repo}`;
+
+            core.debug('Checking for existance of Pull Request data);
             if(!context.payload.pull_request){
-              core.setFailed('There was no Pull Request data available to confirm issue link');
+              core.setFailed('There was no Pull Request data available to confirm existance of issue link');
               return;
             }
             
-            let prBody = context.payload.pull_request.body;
-            console.log(prBody);
+            core.debug('Checking for occurrences of any issue links in the Pull Request description');            
+            const matches = context.payload.pull_request.body.match(ISSUE_LINK_REGEX);
+            if(!matches){
+              core.setFailed('No Issue Link Matches found');
+              return;
+            }
             
-          
-            //const response = await fetch('https://official-joke-api.appspot.com/random_joke');
-            //const data = await response.json();
-            //console.log(data);
+            core.debug('Checking that any found issue links in the Pull Request description reference the same issue')
+            matches = matches.map(item => item.replace(/\D/g, '')); //extracting issue numbers
+            if(!matches.every((match, index, arr) =>  match === arr[0])){
+              core.setFailed('Multiple links referencing different issues');
+              return;
+            }
             
-            //core.setFailed("No Linked Issue Found!");
-          
-            //console.log(context.payload)
-            //console.log(context.payload.pull_request.body);
-            //console.log(github.issues)
+            core.debug('Checking that referenced issue number exists as a valid issue');
+            //retrieving all existing issues from gh api
+            const response = await fetch(`${REPO_BASE_API_URL}/issues`)
+            const issues = await response.json();
+            if(!issues.some(issue => issue.number == matches[0])){
+              core.setFailed('Referenced issue number is not found in list of issues');
+              return;
+            }
             
-            //let isLinked=false;
-            //let isInvalidIssue=false;
-            //let referencesOnlyOneIssue = false;
-            //let body = context.payload.pull_request.body;
-
-            //let issues = github.rest.issues.get({
-            //  repo: context.repo.repo,
-            //});
-            //console.log(issues);
-
-            //const re = /(Closes|Fixes) #[0-9]+ /g;
-            //const matches = body.match(re);
-            //console.log(matches);
             
-            //if(matches){
-              
-            //}
-            
-            //(Closes|Fixes) #[0-9]+ 
