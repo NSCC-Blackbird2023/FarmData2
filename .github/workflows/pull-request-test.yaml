@@ -12,15 +12,12 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            const { payload } = context;
-            console.log(payload);
-            const ORG = payload.organization.login;
-            const REPO = payload.repository.name;
+            const ORG = context.payload.organization.login;
+            const REPO = context.payload.repository.name;
             const REPO_BASE_API_URL = `https://api.github.com/repos/${ORG}/${REPO}`;
             const ISSUE_LINK_REGEX = /(Closes|Fixes) #[0-9]+ /g;
             
             console.log('Checking for existance of Pull Request data');
-            
             if(!context.payload.pull_request){
               core.setFailed('There was no Pull Request data available to confirm existance of issue link');
               return;
@@ -41,6 +38,8 @@ jobs:
             if(!matches.every((match, index, arr) =>  match === arr[0])){
               core.setFailed('Multiple links referencing different issues');
               return;
+            } else {
+              console.log('All issue numbers match');
             }
 
             core.debug('Checking that referenced issue number exists as a valid issue');
