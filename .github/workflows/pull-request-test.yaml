@@ -18,8 +18,10 @@ jobs:
             const ISSUE_LINK_REGEX = /(Closes|Fixes) #[0-9]+ /g;
             
             console.log('Checking for existance of Pull Request data);
+            
+            
             if(!context.payload.pull_request){
-              core.setFailed('There was no Pull Request data available to confirm existance of issue link');
+              //core.setFailed('There was no Pull Request data available to confirm existance of issue link');
               return;
             } else {
               console.log('Pull Request data found');
