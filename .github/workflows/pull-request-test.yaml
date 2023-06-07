@@ -14,6 +14,7 @@ jobs:
           script: |
             core.notice('notice');
             core.info('info');
+            core.warning('warning');
             core.setFailed('setFailed');
             
             return;
