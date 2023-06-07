@@ -26,14 +26,6 @@ jobs:
             const REPO_BASE_API_URL = `https://api.github.com/repos/${ORG}/${REPO}`;
             const ISSUE_LINK_REGEX = /(Closes|Fixes) #[0-9]+ /g;
             let linkedIssueNumber;
-            
-            core.info('Checking for existance of Pull Request data');
-            if(!context.payload.pull_request){
-              core.setFailed('There was no Pull Request data available to confirm existance of issue link');
-              return;
-            } else {
-              core.info('Pull Request data found');
-            }
 
             core.info('Checking for occurrences of any issue links in the Pull Request description');
             let matches = context.payload.pull_request.body.match(ISSUE_LINK_REGEX);
