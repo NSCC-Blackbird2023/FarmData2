@@ -12,14 +12,14 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            core.notice('notice');
-            core.info('info');
-            core.warning('warning');
-            core.debug('debug');
-            core.error('error');
-            core.setFailed('setFailed');
-            
-            return;
+            //core.notice('notice');
+            //core.info('info');
+            //core.warning('warning');
+            //core.debug('debug');
+            //core.error('error');
+            //core.setFailed('setFailed');
+            //
+            //return;
             
             const ORG = context.payload.organization.login;
             const REPO = context.payload.repository.name;
