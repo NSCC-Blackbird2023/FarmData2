@@ -16,6 +16,7 @@ jobs:
             core.info('info');
             core.warning('warning');
             core.debug('debug');
+            core.error('error');
             core.setFailed('setFailed');
             
             return;
