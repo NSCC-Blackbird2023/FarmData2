@@ -51,7 +51,7 @@ jobs:
             }
 
             core.info('Checking that referenced issue number exists as a valid issue');
-            //retrieving all existing issues from gh api
+            //retrieving all existing issues using gh api
             const response = await fetch(`${REPO_BASE_API_URL}/issues`)
             const issues = await response.json();
             if(!issues.some(issue => issue.number == matches[0])){
