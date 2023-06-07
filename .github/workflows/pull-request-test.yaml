@@ -25,6 +25,7 @@ jobs:
             const REPO = context.payload.repository.name;
             const REPO_BASE_API_URL = `https://api.github.com/repos/${ORG}/${REPO}`;
             const ISSUE_LINK_REGEX = /(Closes|Fixes) #[0-9]+ /g;
+            let linkedIssueNumber;
             
             core.info('Checking for existance of Pull Request data');
             if(!context.payload.pull_request){
@@ -47,7 +48,8 @@ jobs:
               core.setFailed('Multiple links referencing different issues');
               return;
             } else {
-              core.info('All issue numbers match');
+              linkedIssueNumber = match[0];
+              core.info(`All issue numbers match with issue ${linkedIssueNumber}`);
             }
 
             core.info('Checking that referenced issue number exists as a valid issue');
