@@ -43,7 +43,7 @@ jobs:
               return;
             } else {
               linkedIssueNumber = matches[0];
-              core.info(`All issue numbers match with issue ${linkedIssueNumber}`);
+              core.info(`All issue numbers match with issue #${linkedIssueNumber}`);
             }
 
             core.info('Checking that referenced issue number exists as a valid issue');
