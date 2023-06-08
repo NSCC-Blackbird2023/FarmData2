@@ -48,7 +48,6 @@ jobs:
             const response = await fetch(`${REPO_BASE_API_URL}/issues`);
             const issues = await response.json();
             const validIssue = issues.find(issue => issue.number == linkedIssueNumber);
-            console.log(validIssue)
             if(!validIssue){
               core.setFailed('Referenced issue number is not found in list of issues');
               return;
