@@ -53,5 +53,3 @@ jobs:
               core.setFailed('Referenced issue number is not found in list of issues');
               return;
             }
-            
-            //core.info('Checking that 
