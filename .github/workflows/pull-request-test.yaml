@@ -19,6 +19,8 @@ jobs:
             //core.setFailed('setFailed');
             //
             //return;
+            
+            console.log(context);
 
             const ORG = context.payload.organization.login;
             const REPO = context.payload.repository.name;
