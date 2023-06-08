@@ -29,8 +29,8 @@ jobs:
             let linkedIssueNumber;
 
             core.info('Checking for issue links in Pull Request description');
-            console.log(context.payload.pull_request);
             let matches = context.payload.pull_request.body.match(ISSUE_LINK_REGEX);
+            console.log(matches);
             if(!matches){
               core.setFailed('No Issue Link Matches found');
               return;
