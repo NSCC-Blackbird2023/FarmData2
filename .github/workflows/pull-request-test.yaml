@@ -20,7 +20,7 @@ jobs:
             //
             //return;
             
-            console.log(context);
+            console.log(context.payload.pull_request.body);
 
             const ORG = context.payload.organization.login;
             const REPO = context.payload.repository.name;
