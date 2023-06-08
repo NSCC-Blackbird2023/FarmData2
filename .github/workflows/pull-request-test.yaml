@@ -59,7 +59,7 @@ jobs:
             console.log(`context.payload.sender.login -> ${context.payload.sender.login}`);
             
             if(!validIssue.assignees.find(assignee => assignee.login === context.payload.sender.login)){
-              core.setFailed('Pull Request submitter is currently not assigned to issue provided in description');
+              core.setFailed(`Pull Request submitter '${context.payload.sender.login}' is currently not assigned to issue #${linkedIssueNumber}`);
               return;
             }
             
