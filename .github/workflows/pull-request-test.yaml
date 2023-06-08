@@ -25,7 +25,7 @@ jobs:
             const ORG = context.payload.organization.login;
             const REPO = context.payload.repository.name;
             const REPO_BASE_API_URL = `https://api.github.com/repos/${ORG}/${REPO}`;
-            const ISSUE_LINK_REGEX = /(Closes|Fixes) #[0-9]+ /g;
+            const ISSUE_LINK_REGEX = /\b(?:close[sd]?|fix(?:es|ed)?|resolve[sd]?)\b #[0-9]+ /gi;
             let linkedIssueNumber;
 
             core.info('Checking for issue links in Pull Request description');
