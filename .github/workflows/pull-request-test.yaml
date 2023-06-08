@@ -53,12 +53,12 @@ jobs:
               core.setFailed(`Referenced issue number #${linkedIssueNumber} is not found in list of issues`);
               return;
             } else {
-              core.info(   --- Referenced issue number #${linkedIssueNumber} found in list of issues}`);
+              core.info(`   --- Referenced issue number #${linkedIssueNumber} found in list of issues}`);
             }
             
             core.info('Checking that the referenced issue number has been assigned to the Pull Request creator');            
             if(validIssue.assignees.find(assignee => assignee.login === context.payload.sender.login)){
-              core.info(   --- Pull Request submitter '${context.payload.sender.login}' is confirmed as assigned to issue #${linkedIssueNumber}`);
+              core.info(`   --- Pull Request submitter '${context.payload.sender.login}' is confirmed as assigned to issue #${linkedIssueNumber}`);
             } else {
               core.setFailed(`Pull Request submitter '${context.payload.sender.login}' is currently not assigned to issue #${linkedIssueNumber}`);
               return;
