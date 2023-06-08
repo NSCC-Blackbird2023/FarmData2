@@ -53,7 +53,7 @@ jobs:
               core.setFailed(`Referenced issue number #${linkedIssueNumber} is not found in list of issues`);
               return;
             } else {
-              core.info(`   --- Referenced issue number #${linkedIssueNumber} found in list of issues}`);
+              core.info(`   --- Referenced issue number #${linkedIssueNumber} found in list of issues`);
             }
             
             core.info('Checking that the referenced issue number has been assigned to the Pull Request creator');            
