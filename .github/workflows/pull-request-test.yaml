@@ -21,6 +21,8 @@ jobs:
             //
             //return;
             
+            console.log(context.payload.pull_request);
+            
             const ORG = context.payload.organization.login;
             const REPO = context.payload.repository.name;
             const REPO_BASE_API_URL = `https://api.github.com/repos/${ORG}/${REPO}`;
@@ -52,3 +54,5 @@ jobs:
               core.setFailed('Referenced issue number is not found in list of issues');
               return;
             }
+            
+            core.info('Checking that 
