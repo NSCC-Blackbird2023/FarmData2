@@ -57,7 +57,9 @@ jobs:
             }
             
             core.info('Checking that the referenced issue number has been assigned to the Pull Request creator');            
-            if(!validIssue.assignees.find(assignee => assignee.login === context.payload.sender.login)){
+            if(validIssue.assignees.find(assignee => assignee.login === context.payload.sender.login)){
+              core.info(   --- Pull Request submitter '${context.payload.sender.login}' is confirmed as assigned to issue #${linkedIssueNumber}`);
+            } else {
               core.setFailed(`Pull Request submitter '${context.payload.sender.login}' is currently not assigned to issue #${linkedIssueNumber}`);
               return;
             }
