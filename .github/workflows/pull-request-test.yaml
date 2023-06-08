@@ -29,6 +29,8 @@ jobs:
             if(!matches){
               core.setFailed('No Issue Link Matches found');
               return;
+            } else {
+              core.info('   --- Issue Links found');
             }
 
             core.info('Checking that any found issue links reference the same issue number');
@@ -39,7 +41,7 @@ jobs:
               return;
             } else {
               linkedIssueNumber = matches[0];
-              core.info(`All issue numbers match with issue #${linkedIssueNumber}`);
+              core.info(`   --- All issue numbers match with issue #${linkedIssueNumber}`);
             }
 
             core.info('Checking that referenced issue number exists as a valid issue');
@@ -48,8 +50,10 @@ jobs:
             const issues = await response.json();
             const validIssue = issues.find(issue => issue.number == linkedIssueNumber);
             if(!validIssue){
-              core.setFailed('Referenced issue number is not found in list of issues');
+              core.setFailed(`Referenced issue number #${linkedIssueNumber} is not found in list of issues`);
               return;
+            } else {
+              core.info(   --- Referenced issue number #${linkedIssueNumber} found in list of issues}`);
             }
             
             core.info('Checking that the referenced issue number has been assigned to the Pull Request creator');            
