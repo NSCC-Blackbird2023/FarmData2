@@ -55,6 +55,8 @@ jobs:
             }
             
             core.info('Checking that the referenced issue number has been assigned to the Pull Request creator');
-            //retrieving all current assignees for the referenced issue number.
-            
+            if(!validIssue.assignees.find(assignee => assignee.login === context.payload.sender.login){
+              core.setFailed('Pull Request submitter is currently not assigned to issue provided in description');
+              return;
+            }
             
