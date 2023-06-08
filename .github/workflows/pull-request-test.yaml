@@ -42,7 +42,7 @@ jobs:
               core.setFailed('Multiple links referencing different issues');
               return;
             } else {
-              linkedIssueNumber = match[0];
+              linkedIssueNumber = matches[0];
               core.info(`All issue numbers match with issue ${linkedIssueNumber}`);
             }
 
