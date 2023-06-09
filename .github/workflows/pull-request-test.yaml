@@ -22,7 +22,7 @@ jobs:
             const generateSummary = markdown => {
               const fs = require('fs');
               try {
-                fs.writeFileSync(process.env.GITHUB_STEP_SUMMARY, '### Hello world! 🚀');
+                fs.writeFileSync(process.env.GITHUB_STEP_SUMMARY, markdown);
               }
               catch(ex) {
                 console.log(ex);
