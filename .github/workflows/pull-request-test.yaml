@@ -34,6 +34,7 @@ jobs:
             const REPO = context.payload.repository.name;
             const REPO_BASE_API_URL = `https://api.github.com/repos/${ORG}/${REPO}`;
             const ISSUE_LINK_REGEX = /\b(?:close[sd]?|fix(?:es|ed)?|resolve[sd]?)\b #[0-9]+ /gi;
+            let summaryMarkdown = '### Pull Request Submission Summary';
             
             //process.env.GITHUB_STEP_SUMMARY = '### Hello world! 🚀';
             
@@ -41,9 +42,12 @@ jobs:
             let matches = context.payload.pull_request.body.match(ISSUE_LINK_REGEX);
             if(!matches){
               core.setFailed('No Issue Link Matches found');
+              summaryMarkdown += '* Check for existance of issue link(s) - :white_check_mark: passed';
+              generateSummary(summaryMarkdown);
               return;
             } else {
               core.info('   --- Issue Links found');
+              summaryMarkdown += '* Check for existance of issue link(s) - :white_check_mark: passed';
             }
 
             core.info('Checking that any found issue links reference the same issue number');
@@ -51,10 +55,12 @@ jobs:
             matches = matches.map(item => item.replace(/\D/g, '')); //extracting issue numbers
             if(!matches.every((match, index, arr) =>  match === arr[0])){
               core.setFailed('Multiple links referencing different issues');
+              generateSummary(summaryMarkdown);
               return;
             } else {
               linkedIssueNumber = matches[0];
               core.info(`   --- All issue numbers match with issue #${linkedIssueNumber}`);
+              summaryMarkdown += '* Check that issue links all reference the same issue - :white_check_mark: passed';
             }
 
             core.info('Checking that referenced issue number exists as a valid issue');
@@ -64,16 +70,22 @@ jobs:
             const validIssue = issues.find(issue => issue.number == linkedIssueNumber);
             if(!validIssue){
               core.setFailed(`Referenced issue number #${linkedIssueNumber} is not found in list of issues`);
+              generateSummary(summaryMarkdown);
               return;
             } else {
               core.info(`   --- Referenced issue number #${linkedIssueNumber} found in list of issues`);
+              summaryMarkdown += '* Check that referenced issue number exists as a valid issue - :white_check_mark: passed';
             }
             
             core.info('Checking that the referenced issue number has been assigned to the Pull Request creator');            
             if(validIssue.assignees.find(assignee => assignee.login === context.payload.sender.login)){
               core.info(`   --- Pull Request submitter '${context.payload.sender.login}' is confirmed assigned to issue #${linkedIssueNumber}`);
+              summaryMarkdown += '* Check that referenced issue number has been assigned to the Pull Request creator - :white_check_mark: passed';
             } else {
               core.setFailed(`Pull Request submitter '${context.payload.sender.login}' is currently not assigned to issue #${linkedIssueNumber}`);
+              generateSummary(summaryMarkdown);
               return;
             }
+            
+            generateSummary(summaryMarkdown);
             
