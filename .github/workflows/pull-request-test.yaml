@@ -105,7 +105,7 @@ jobs:
               summaryMarkdown += '* Check that referenced issue number has been assigned to the Pull Request creator - :white_check_mark:\n';
             } else {
               core.setFailed(`Pull Request submitter '${context.payload.sender.login}' is currently not assigned to issue #${linkedIssueNumber}`);
-              generateSummary(summaryMarkdown);
+              generateCommentOnFail('not_assignee');
               return;
             }
             
