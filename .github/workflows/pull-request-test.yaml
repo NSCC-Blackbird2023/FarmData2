@@ -20,6 +20,10 @@ jobs:
                   markdown = `**Welcome**, new contributor!
                               Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
                   break;
+                case 'links_reference_multiple_issues'
+                  markdown = `**Welcome**, new contributor!
+                              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
+                  break;
               }
 
               //generate comment with selected markdown
