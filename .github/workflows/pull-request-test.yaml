@@ -17,7 +17,8 @@ jobs:
 
               switch(reason){
                 case 'no_issue_link':
-                  markdown = 'test123'
+                  markdown = `**Welcome**, new contributor!
+                              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
                   break;
               }
 
