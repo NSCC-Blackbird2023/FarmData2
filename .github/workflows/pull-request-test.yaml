@@ -19,6 +19,29 @@ jobs:
             //core.setFailed('setFailed');
             //return;
             
+            const generateCommentOnFail = reason => {
+              let markdown;
+              
+              switch(reason){
+                case 'no_issue_link':
+                  markdown = `**Welcome**, new contributor!
+                              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
+                  break;
+                case 'links_reference_multiple_issues'
+                  markdown = `**Welcome**, new contributor!
+                              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
+                  break;
+                case 'issue_doesnt_exist':
+                  markdown = `**Welcome**, new contributor!
+                              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
+                  break;
+                  
+              
+              }
+              
+              //generate comment with selected markdown
+            }
+            
             const generateSummary = markdown => {
               const fs = require('fs');
               try {
@@ -41,9 +64,8 @@ jobs:
             core.info('Checking for issue links in Pull Request description');
             let matches = context.payload.pull_request.body.match(ISSUE_LINK_REGEX);
             if(!matches){
-              core.setFailed('No Issue Link Matches found');
-              summaryMarkdown += '* Check for existence of issue link(s) - :white_check_mark:\n';
-              generateSummary(summaryMarkdown);
+              core.setFailed('No Issue Links found');
+              generateCommentOnFail('no_issue_link');
               return;
             } else {
               core.info('   --- Issue Links found');
@@ -55,7 +77,7 @@ jobs:
             matches = matches.map(item => item.replace(/\D/g, '')); //extracting issue numbers
             if(!matches.every((match, index, arr) =>  match === arr[0])){
               core.setFailed('Multiple links referencing different issues');
-              generateSummary(summaryMarkdown);
+              generateCommentOnFail('links_reference_multiple_issues');
               return;
             } else {
               linkedIssueNumber = matches[0];
@@ -70,7 +92,7 @@ jobs:
             const validIssue = issues.find(issue => issue.number == linkedIssueNumber);
             if(!validIssue){
               core.setFailed(`Referenced issue number #${linkedIssueNumber} is not found in list of issues`);
-              generateSummary(summaryMarkdown);
+              generateCommentOnFail('issue_doesnt_exist');
               return;
             } else {
               core.info(`   --- Referenced issue number #${linkedIssueNumber} found in list of issues`);
