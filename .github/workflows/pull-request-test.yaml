@@ -25,7 +25,8 @@ jobs:
                 fs.writeFileSync(process.env.GITHUB_STEP_SUMMARY, markdown);
               }
               catch(ex) {
-                console.log(ex);
+                core.warning('Unable to generate Github Action Job Summary');
+                core.warning(ex.message);
               }
             }
             
@@ -36,18 +37,17 @@ jobs:
             const ISSUE_LINK_REGEX = /\b(?:close[sd]?|fix(?:es|ed)?|resolve[sd]?)\b #[0-9]+ /gi;
             let summaryMarkdown = '### Pull Request Submission Summary';
             
-            //process.env.GITHUB_STEP_SUMMARY = '### Hello world! 🚀';
             
             core.info('Checking for issue links in Pull Request description');
             let matches = context.payload.pull_request.body.match(ISSUE_LINK_REGEX);
             if(!matches){
               core.setFailed('No Issue Link Matches found');
-              summaryMarkdown += '* Check for existance of issue link(s) - :white_check_mark: passed';
+              summaryMarkdown += '* Check for existence of issue link(s) - :white_check_mark: passed';
               generateSummary(summaryMarkdown);
               return;
             } else {
               core.info('   --- Issue Links found');
-              summaryMarkdown += '* Check for existance of issue link(s) - :white_check_mark: passed';
+              summaryMarkdown += '* Check for existence of issue link(s) - :white_check_mark: passed';
             }
 
             core.info('Checking that any found issue links reference the same issue number');
