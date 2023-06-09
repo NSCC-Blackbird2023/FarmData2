@@ -19,22 +19,23 @@ jobs:
             //core.setFailed('setFailed');
             //return;
             
+            const generateSummary = markdown => {
+              const fs = require('fs');
+              try {
+                fs.writeFileSync(process.env.GITHUB_STEP_SUMMARY, '### Hello world! 🚀');
+              }
+              catch(ex) {
+                console.log(ex);
+              }
+            }
+            
+            
             const ORG = context.payload.organization.login;
             const REPO = context.payload.repository.name;
             const REPO_BASE_API_URL = `https://api.github.com/repos/${ORG}/${REPO}`;
             const ISSUE_LINK_REGEX = /\b(?:close[sd]?|fix(?:es|ed)?|resolve[sd]?)\b #[0-9]+ /gi;
-            const fs = require('fs');
             
             //process.env.GITHUB_STEP_SUMMARY = '### Hello world! 🚀';
-            console.log(fs);
-            
-            try {
-              fs.writeFileSync(process.env.GITHUB_STEP_SUMMARY, '### Hello world! 🚀');
-            }
-            catch(ex) {
-              console.log(ex);
-            }
-            
             
             core.info('Checking for issue links in Pull Request description');
             let matches = context.payload.pull_request.body.match(ISSUE_LINK_REGEX);
