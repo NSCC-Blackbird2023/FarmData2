@@ -11,14 +11,7 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            //core.notice('notice');
-            //core.info('info');
-            //core.warning('warning');
-            //core.debug('debug');
-            //core.error('error');
-            //core.setFailed('setFailed');
-            //return;
-            
+
             const generateCommentOnFail = reason => {
               let markdown;
               
@@ -40,6 +33,12 @@ jobs:
               }
               
               //generate comment with selected markdown
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: markdown
+              })
             }
             
             const generateSummary = markdown => {
