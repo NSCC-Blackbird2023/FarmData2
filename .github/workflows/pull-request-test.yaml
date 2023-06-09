@@ -28,8 +28,6 @@ jobs:
                   markdown = `**Welcome**, new contributor!
                               Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
                   break;
-                  
-              
               }
               
               //generate comment with selected markdown
@@ -41,16 +39,16 @@ jobs:
               })
             }
             
-            const generateSummary = markdown => {
-              const fs = require('fs');
-              try {
-                fs.writeFileSync(process.env.GITHUB_STEP_SUMMARY, markdown);
-              }
-              catch(ex) {
-                core.warning('Unable to generate Github Action Job Summary');
-                core.warning(ex.message);
-              }
-            }
+            //const generateSummary = markdown => {
+            //  const fs = require('fs');
+            //  try {
+            //    fs.writeFileSync(process.env.GITHUB_STEP_SUMMARY, markdown);
+            //  }
+            //  catch(ex) {
+            //    core.warning('Unable to generate Github Action Job Summary');
+            //    core.warning(ex.message);
+            // }
+            //}
             
             
             const ORG = context.payload.organization.login;
@@ -108,5 +106,5 @@ jobs:
               return;
             }
             
-            generateSummary(summaryMarkdown);
+            //generateSummary(summaryMarkdown);
             
