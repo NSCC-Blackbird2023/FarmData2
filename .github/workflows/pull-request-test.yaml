@@ -24,8 +24,6 @@ jobs:
             const REPO_BASE_API_URL = `https://api.github.com/repos/${ORG}/${REPO}`;
             const ISSUE_LINK_REGEX = /\b(?:close[sd]?|fix(?:es|ed)?|resolve[sd]?)\b #[0-9]+ /gi;
             
-            //echo '### Hello world! 🚀' >> $GITHUB_STEP_SUMMARY
-
             core.info('Checking for issue links in Pull Request description');
             let matches = context.payload.pull_request.body.match(ISSUE_LINK_REGEX);
             if(!matches){
