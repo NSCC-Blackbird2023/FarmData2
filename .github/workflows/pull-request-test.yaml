@@ -12,32 +12,32 @@ jobs:
         with:
           script: |
 
-            // const generateCommentOnFail = reason => {
-            //   let markdown;
-            //
-            //   switch(reason){
-            //     case 'no_issue_link':
-            //       markdown = `**Welcome**, new contributor!
-            //                   Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
-            //       break;
-            //     case 'links_reference_multiple_issues'
-            //       markdown = `**Welcome**, new contributor!
-            //                   Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
-            //       break;
-            //     case 'issue_doesnt_exist':
-            //       markdown = `**Welcome**, new contributor!
-            //                   Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
-            //       break;
-            //   }
-            //
-            //   //generate comment with selected markdown
-            //   github.rest.issues.createComment({
-            //     issue_number: context.issue.number,
-            //     owner: context.repo.owner,
-            //     repo: context.repo.repo,
-            //     body: markdown
-            //   })
-            // }
+            const generateCommentOnFail = reason => {
+              let markdown;
+
+              switch(reason){
+                case 'no_issue_link':
+                  markdown = `**Welcome**, new contributor!
+                              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
+                  break;
+                case 'links_reference_multiple_issues'
+                  markdown = `**Welcome**, new contributor!
+                              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
+                  break;
+                case 'issue_doesnt_exist':
+                  markdown = `**Welcome**, new contributor!
+                              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
+                  break;
+              }
+
+              //generate comment with selected markdown
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: markdown
+              })
+            }
             
             //const generateSummary = markdown => {
             //  const fs = require('fs');
