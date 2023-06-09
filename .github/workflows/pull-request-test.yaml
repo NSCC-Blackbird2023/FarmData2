@@ -12,32 +12,32 @@ jobs:
         with:
           script: |
 
-            const generateCommentOnFail = reason => {
-              let markdown;
-              
-              switch(reason){
-                case 'no_issue_link':
-                  markdown = `**Welcome**, new contributor!
-                              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
-                  break;
-                case 'links_reference_multiple_issues'
-                  markdown = `**Welcome**, new contributor!
-                              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
-                  break;
-                case 'issue_doesnt_exist':
-                  markdown = `**Welcome**, new contributor!
-                              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
-                  break;
-              }
-              
-              //generate comment with selected markdown
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: markdown
-              })
-            }
+            // const generateCommentOnFail = reason => {
+            //   let markdown;
+            //
+            //   switch(reason){
+            //     case 'no_issue_link':
+            //       markdown = `**Welcome**, new contributor!
+            //                   Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
+            //       break;
+            //     case 'links_reference_multiple_issues'
+            //       markdown = `**Welcome**, new contributor!
+            //                   Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
+            //       break;
+            //     case 'issue_doesnt_exist':
+            //       markdown = `**Welcome**, new contributor!
+            //                   Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
+            //       break;
+            //   }
+            //
+            //   //generate comment with selected markdown
+            //   github.rest.issues.createComment({
+            //     issue_number: context.issue.number,
+            //     owner: context.repo.owner,
+            //     repo: context.repo.repo,
+            //     body: markdown
+            //   })
+            // }
             
             //const generateSummary = markdown => {
             //  const fs = require('fs');
@@ -62,7 +62,7 @@ jobs:
             let matches = context.payload.pull_request.body.match(ISSUE_LINK_REGEX);
             if(!matches){
               core.setFailed('No Issue Links found');
-              generateCommentOnFail('no_issue_link');
+              // generateCommentOnFail('no_issue_link');
               return;
             } else {
               core.info('   --- Issue Links found');
@@ -74,7 +74,7 @@ jobs:
             matches = matches.map(item => item.replace(/\D/g, '')); //extracting issue numbers
             if(!matches.every((match, index, arr) =>  match === arr[0])){
               core.setFailed('Multiple links referencing different issues');
-              generateCommentOnFail('links_reference_multiple_issues');
+              // generateCommentOnFail('links_reference_multiple_issues');
               return;
             } else {
               linkedIssueNumber = matches[0];
@@ -89,7 +89,7 @@ jobs:
             const validIssue = issues.find(issue => issue.number == linkedIssueNumber);
             if(!validIssue){
               core.setFailed(`Referenced issue number #${linkedIssueNumber} is not found in list of issues`);
-              generateCommentOnFail('issue_doesnt_exist');
+              // generateCommentOnFail('issue_doesnt_exist');
               return;
             } else {
               core.info(`   --- Referenced issue number #${linkedIssueNumber} found in list of issues`);
@@ -102,9 +102,8 @@ jobs:
               summaryMarkdown += '* Check that referenced issue number has been assigned to the Pull Request creator - :white_check_mark:\n';
             } else {
               core.setFailed(`Pull Request submitter '${context.payload.sender.login}' is currently not assigned to issue #${linkedIssueNumber}`);
-              generateCommentOnFail('not_assignee');
+              // generateCommentOnFail('not_assignee');
               return;
             }
             
             //generateSummary(summaryMarkdown);
-            
