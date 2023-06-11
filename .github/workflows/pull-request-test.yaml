@@ -67,15 +67,14 @@ jobs:
             ///////////////////////////////// HELPER FUNCTIONS ///////////////////////////////////////
             
             function generateCommentOnFail(reason, additionalInfo){
-              let markdown = '###There was a problem with your Pull Request submission';
+              let markdown = '### There was a problem with your Pull Request submission';
               
               switch(reason){
                 case 'no_link':
                   markdown = `${markdown}
-                              ###:x: No issue link found in Pull Request description
-                              The activity instructions required you to reference the issue for which you were submitting this pull request. 
-                              (Examples: Closes #15 or Fixes #10)
-                              Modify the above description of this Pull Request and add the required issue link.`
+                  #### :x: No issue link found in Pull Request description
+                  The activity instructions required you to reference the issue for which you were submitting this pull request.
+                  Modify the above description of this Pull Request and add the required issue link.`
                   break;
               }
               
