@@ -1,11 +1,11 @@
-name: Issue Link Checker
+name: Pull Request Submission Checker
 
 on:
   pull_request:
     types: [edited, synchronize, opened, reopened]
 
 jobs:
-  pull-request-test:
+  pull-request-submission-checker:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
