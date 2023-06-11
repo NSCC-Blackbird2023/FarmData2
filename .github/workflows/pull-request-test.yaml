@@ -22,26 +22,24 @@ jobs:
                         
             core.info('Checking for issue links in Pull Request description');
             let matches = context.payload.pull_request.body.match(ISSUE_LINK_REGEX);
-            if(!matches){
+            if(matches){
+              core.info('   --- Issue Links found');
+            } else {
               core.setFailed('No Issue Links found');
               generateCommentOnFail('no_link');
               return;
-            } else {
-              core.info('   --- Issue Links found');
-              commentMarkdown += '* Check for existence of issue link(s) - :white_check_mark:\n';
             }
 
             core.info('Checking that any found issue links reference the same issue number');
             let linkedIssueNumber;
-            matches = matches.map(item => item.replace(/\D/g, '')); //extracting issue numbers
-            if(!matches.every((match, index, arr) =>  match === arr[0])){
+            matches = matches.map(item => item.replace(/\D/g, '')); //extracting just issue numbers
+            if(matches.every((match, index, arr) =>  match === arr[0])){
+              linkedIssueNumber = matches[0];
+              core.info(`   --- All issue numbers match with issue #${linkedIssueNumber}`);
+            } else {
               core.setFailed('Multiple links referencing different issues');
               generateCommentOnFail('links_reference_multiple_issues');
               return;
-            } else {
-              linkedIssueNumber = matches[0];
-              core.info(`   --- All issue numbers match with issue #${linkedIssueNumber}`);
-              summaryMarkdown += '* Check that issue links all reference the same issue - :white_check_mark:\n';
             }
 
             core.info('Checking that referenced issue number exists as a valid issue');
@@ -49,22 +47,19 @@ jobs:
             const response = await fetch(`${REPO_BASE_API_URL}/issues`);
             const issues = await response.json();
             const validIssue = issues.find(issue => issue.number == linkedIssueNumber);
-            if(!validIssue){
+            if(validIssue){
+              core.info(`   --- Referenced issue number #${linkedIssueNumber} found in list of issues`);
+            } else {
               core.setFailed(`Referenced issue number #${linkedIssueNumber} is not found in list of issues`);
               generateCommentOnFail('issue_doesnt_exist');
               return;
-            } else {
-              core.info(`   --- Referenced issue number #${linkedIssueNumber} found in list of issues`);
-              summaryMarkdown += '* Check that referenced issue number exists as a valid issue - :white_check_mark:\n';
             }
             
             core.info('Checking that the referenced issue number has been assigned to the Pull Request creator');            
             if(validIssue.assignees.find(assignee => assignee.login === context.payload.sender.login)){
               core.info(`   --- Pull Request submitter '${context.payload.sender.login}' is confirmed assigned to issue #${linkedIssueNumber}`);
-              summaryMarkdown += '* Check that referenced issue number has been assigned to the Pull Request creator - :white_check_mark:\n';
             } else {
               core.setFailed(`Pull Request submitter '${context.payload.sender.login}' is currently not assigned to issue #${linkedIssueNumber}`);
-              errorMarkdown
               generateCommentOnFail('not_assignee');
               return;
             }
