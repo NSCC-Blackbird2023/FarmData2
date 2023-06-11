@@ -74,13 +74,7 @@ jobs:
                   markdown = `${markdown}\n#### :x: No issue link found in pull request description\n\nThe activity instructions required you to reference the issue for which you were submitting this Pull Request.\nModify the above description of this Pull Request and add the required issue link.`;
                   break;
                 case 'links_reference_multiple_issues':
-                  markdown = `
-                  ### There was a problem with your pull request submission
-                  #### :x: Multiple links referencing different issues
-                  You have submitted more than one link to the issue however the links refer to different issues.
-                  Issues referenced: ${additionalInfo.issue_numbers.join()}
-                  Modify the above description of this pull request to either have only one issue link, or have multiple links that all reference the same issue.
-                  `;
+                  markdown = `${markdown}\n#### :x: Multiple links referencing different issues\n\nYou have submitted more than one link to the issue however the links refer to different issues.\nIssues referenced: ${additionalInfo.issue_numbers.join()}\nModify the above description of this pull request to either have only one issue link, or have multiple links that all reference the same issue.`;
                   break;
                 case 'issue_doesnt_exist':
                   markdown = `
