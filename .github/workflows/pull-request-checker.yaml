@@ -20,7 +20,7 @@ jobs:
             const REPO_BASE_API_URL = `https://api.github.com/repos/${ORG}/${REPO}`;
             const ISSUE_LINK_REGEX = /\b(?:close[sd]?|fix(?:es|ed)?|resolve[sd]?)\b #[0-9]+ /gi;
                         
-            core.info('Checking for issue links in Pull Request description');
+            core.info('Checking for issue links in pull Request description');
             let matches = context.payload.pull_request.body.match(ISSUE_LINK_REGEX);
             if(matches){
               core.info('   --- Issue Links found');
@@ -55,11 +55,11 @@ jobs:
               return;
             }
             
-            core.info('Checking that the referenced issue number has been assigned to the Pull Request creator');            
+            core.info('Checking that the referenced issue number has been assigned to the pull Request creator');            
             if(validIssue.assignees.find(assignee => assignee.login === context.payload.sender.login)){
-              core.info(`   --- Pull Request submitter '${context.payload.sender.login}' is confirmed assigned to issue #${linkedIssueNumber}`);
+              core.info(`   --- Pull request submitter '${context.payload.sender.login}' is confirmed assigned to issue #${linkedIssueNumber}`);
             } else {
-              core.setFailed(`Pull Request submitter '${context.payload.sender.login}' is currently not assigned to issue #${linkedIssueNumber}`);
+              core.setFailed(`Pull request submitter '${context.payload.sender.login}' is currently not assigned to issue #${linkedIssueNumber}`);
               generateCommentOnFail('not_assignee', { issue_number: linkedIssueNumber });
               return;
             }
@@ -67,24 +67,24 @@ jobs:
             ///////////////////////////////// HELPER FUNCTIONS ///////////////////////////////////////
             
             function generateCommentOnFail(reason, additionalInfo){
-              let markdown = '### There was a problem with your Pull Request submission';
+              let markdown = '### There was a problem with your pull request submission';
               
               switch(reason){
                 case 'no_link':
-                  markdown = `${markdown}\n#### :x: No issue link found in Pull Request description\n\nThe activity instructions required you to reference the issue for which you were submitting this Pull Request.\nModify the above description of this Pull Request and add the required issue link.`;
+                  markdown = `${markdown}\n#### :x: No issue link found in pull request description\n\nThe activity instructions required you to reference the issue for which you were submitting this Pull Request.\nModify the above description of this Pull Request and add the required issue link.`;
                   break;
                 case 'links_reference_multiple_issues':
                   markdown = `
-                  ### There was a problem with your Pull Request submission
+                  ### There was a problem with your pull request submission
                   #### :x: Multiple links referencing different issues
                   You have submitted more than one link to the issue however the links refer to different issues.
                   Issues referenced: ${additionalInfo.issue_numbers.join()}
-                  Modify the above description of this Pull Request to either have only one issue link, or have multiple links that all reference the same issue.
+                  Modify the above description of this pull request to either have only one issue link, or have multiple links that all reference the same issue.
                   `;
                   break;
                 case 'issue_doesnt_exist':
                   markdown = `
-                  ### There was a problem with your Pull Request submission
+                  ### There was a problem with your pull request submission
                   #### :x: Referenced issue doesn't exist
                   You have linked to an issue, however that issue doesn't exist in the available list of issues.
                   Issues number referenced: ${ additionalInfo.issue_number }
@@ -93,7 +93,7 @@ jobs:
                   break;
                 case 'not_assignee':
                   markdown = `
-                  ### There was a problem with your Pull Request submission
+                  ### There was a problem with your pull request submission
                   #### :x: You are currently not assigned to this issue
                   You have linked to an issue for which you are currently not an assignee.
                   Issues number referenced: ${ additionalInfo.issue_number }
