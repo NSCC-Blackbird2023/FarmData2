@@ -77,23 +77,10 @@ jobs:
                   markdown = `${markdown}\n#### :x: Multiple links referencing different issues\n\nYou have submitted more than one link to the issue however the links refer to different issues.\nIssues referenced: ${additionalInfo.issue_numbers.join()}\nModify the above description of this pull request to either have only one issue link, or have multiple links that all reference the same issue.`;
                   break;
                 case 'issue_doesnt_exist':
-                  markdown = `
-                  ### There was a problem with your pull request submission
-                  #### :x: Referenced issue doesn't exist
-                  You have linked to an issue, however that issue doesn't exist in the available list of issues.
-                  Issues number referenced: ${ additionalInfo.issue_number }
-                  Modify the link that you submitted so that it references an existing issue.
-                  `;
+                  markdown = `${markdown}\n#### :x: Referenced issue doesn't exist\n\nYou have linked to an issue, however that issue doesn't exist in the available list of issues.\nIssues number referenced: ${ additionalInfo.issue_number }\nModify the link that you submitted so that it references an existing issue.`;
                   break;
                 case 'not_assignee':
-                  markdown = `
-                  ### There was a problem with your pull request submission
-                  #### :x: You are currently not assigned to this issue
-                  You have linked to an issue for which you are currently not an assignee.
-                  Issues number referenced: ${ additionalInfo.issue_number }
-                  Did you link to the wrong issue? If so, fix the link in the above Pull Request description.
-                  If you have linked to the correct issue, take the steps necessary so that you become an assignee to that issue.
-                  `;
+                  markdown = `${markdown}\n#### :x: You are currently not assigned to this issue\n\nYou have linked to an issue for which you are currently not an assignee.\nIssues number referenced: ${ additionalInfo.issue_number }\nDid you link to the wrong issue? If so, fix the link in the above Pull Request description.\nIf you have linked to the correct issue, take the steps necessary so that you become an assignee to that issue.`;
                   break;
               }
               
