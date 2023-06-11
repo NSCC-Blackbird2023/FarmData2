@@ -71,7 +71,7 @@ jobs:
               
               switch(reason){
                 case 'no_link':
-                  markdown = `### There was a problem with your Pull Request submission #### :x: No issue link found in Pull Request description
+                  markdown = `### There was a problem with your Pull Request submission\n#### :x: No issue link found in Pull Request description
                   The activity instructions required you to reference the issue for which you were submitting this Pull Request.
                   Modify the above description of this Pull Request and add the required issue link.
                   `;
