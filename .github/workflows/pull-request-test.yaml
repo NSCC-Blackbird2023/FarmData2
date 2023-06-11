@@ -1,11 +1,11 @@
-name: Pull Request Submission Checker
+name: Pull Request Checker
 
 on:
   pull_request:
     types: [edited, synchronize, opened, reopened]
 
 jobs:
-  pull-request-submission-checker:
+  pull-request-checker:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
