@@ -71,32 +71,40 @@ jobs:
               
               switch(reason){
                 case 'no_link':
-                  markdown = `${markdown}
+                  markdown = `
+                  ### There was a problem with your Pull Request submission
                   #### :x: No issue link found in Pull Request description
                   The activity instructions required you to reference the issue for which you were submitting this Pull Request.
-                  Modify the above description of this Pull Request and add the required issue link.`;
+                  Modify the above description of this Pull Request and add the required issue link.
+                  `;
                   break;
                 case 'links_reference_multiple_issues':
-                  markdown = `${markdown}
+                  markdown = `
+                  ### There was a problem with your Pull Request submission
                   #### :x: Multiple links referencing different issues
                   You have submitted more than one link to the issue however the links refer to different issues.
                   Issues referenced: ${additionalInfo.issue_numbers.join()}
-                  Modify the above description of this Pull Request to either have only one issue link, or have multiple links that all reference the same issue.`;
+                  Modify the above description of this Pull Request to either have only one issue link, or have multiple links that all reference the same issue.
+                  `;
                   break;
                 case 'issue_doesnt_exist':
-                  markdown = `${markdown}
+                  markdown = `
+                  ### There was a problem with your Pull Request submission
                   #### :x: Referenced issue doesn't exist
                   You have linked to an issue, however that issue doesn't exist in the available list of issues.
                   Issues number referenced: ${ additionalInfo.issue_number }
-                  Modify the link that you submitted so that it references an existing issue.`;
+                  Modify the link that you submitted so that it references an existing issue.
+                  `;
                   break;
                 case 'not_assignee':
-                  markdown = `${markdown}
+                  markdown = `
+                  ### There was a problem with your Pull Request submission
                   #### :x: You are currently not assigned to this issue
                   You have linked to an issue for which you are currently not an assignee.
                   Issues number referenced: ${ additionalInfo.issue_number }
                   Did you link to the wrong issue? If so, fix the link in the above Pull Request description.
-                  If you have linked to the correct issue, take the steps necessary so that you become an assignee to that issue.`;
+                  If you have linked to the correct issue, take the steps necessary so that you become an assignee to that issue.
+                  `;
                   break;
               }
               
