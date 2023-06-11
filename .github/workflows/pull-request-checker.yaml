@@ -38,7 +38,7 @@ jobs:
               core.info(`   --- All issue numbers match with issue #${linkedIssueNumber}`);
             } else {
               core.setFailed('Multiple links referencing different issues');
-              generateCommentOnFail('links_reference_multiple_issues');
+              generateCommentOnFail('links_reference_multiple_issues', { issue_numbers: matches });
               return;
             }
 
@@ -51,7 +51,7 @@ jobs:
               core.info(`   --- Referenced issue number #${linkedIssueNumber} found in list of issues`);
             } else {
               core.setFailed(`Referenced issue number #${linkedIssueNumber} is not found in list of issues`);
-              generateCommentOnFail('issue_doesnt_exist');
+              generateCommentOnFail('issue_doesnt_exist', { issue_number: linkedIssueNumber });
               return;
             }
             
@@ -60,7 +60,7 @@ jobs:
               core.info(`   --- Pull Request submitter '${context.payload.sender.login}' is confirmed assigned to issue #${linkedIssueNumber}`);
             } else {
               core.setFailed(`Pull Request submitter '${context.payload.sender.login}' is currently not assigned to issue #${linkedIssueNumber}`);
-              generateCommentOnFail('not_assignee');
+              generateCommentOnFail('not_assignee', { issue_number: linkedIssueNumber });
               return;
             }
             
@@ -73,8 +73,30 @@ jobs:
                 case 'no_link':
                   markdown = `${markdown}
                   #### :x: No issue link found in Pull Request description
-                  The activity instructions required you to reference the issue for which you were submitting this pull request.
-                  Modify the above description of this Pull Request and add the required issue link.`
+                  The activity instructions required you to reference the issue for which you were submitting this Pull Request.
+                  Modify the above description of this Pull Request and add the required issue link.`;
+                  break;
+                case 'links_reference_multiple_issues':
+                  markdown = `${markdown}
+                  #### :x: Multiple links referencing different issues
+                  You have submitted more than one link to the issue however the links refer to different issues.
+                  Issues referenced: ${additionalInfo.issue_numbers.join()}
+                  Modify the above description of this Pull Request to either have only one issue link, or have multiple links that all reference the same issue.`;
+                  break;
+                case 'issue_doesnt_exist':
+                  markdown = `${markdown}
+                  #### :x: Referenced issue doesn't exist
+                  You have linked to an issue, however that issue doesn't exist in the available list of issues.
+                  Issues number referenced: ${ additionalInfo.issue_number }
+                  Modify the link that you submitted so that it references an existing issue.`;
+                  break;
+                case 'not_assignee':
+                  markdown = `${markdown}
+                  #### :x: You are currently not assigned to this issue
+                  You have linked to an issue for which you are currently not an assignee.
+                  Issues number referenced: ${ additionalInfo.issue_number }
+                  Did you link to the wrong issue? If so, fix the link in the above Pull Request description.
+                  If you have linked to the correct issue, take the steps necessary so that you become an assignee to that issue.`;
                   break;
               }
               
