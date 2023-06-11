@@ -14,67 +14,21 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-
-            const generateCommentOnFail = reason => {
-              let markdown;
-
-              switch(reason){
-                case 'no_issue_link':
-                  markdown = `**Welcome**, new contributor!
-                              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
-                  break;
-                case 'links_reference_multiple_issues':
-                  markdown = `**Welcome**, new contributor!
-                              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
-                  break;
-                case 'issue_doesnt_exist':
-                  markdown = `**Welcome**, new contributor!
-                              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
-                  break;
-                case 'not_assignee':
-                  markdown = `**Welcome**, new contributor!
-                              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`;
-                  break;
-              }
-
-              //generate comment with selected markdown
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: markdown
-              })
-            }
-            
-            //const generateSummary = markdown => {
-            //  const fs = require('fs');
-            //  try {
-            //    fs.writeFileSync(process.env.GITHUB_STEP_SUMMARY, markdown);
-            //  }
-            //  catch(ex) {
-            //    core.warning('Unable to generate Github Action Job Summary');
-            //    core.warning(ex.message);
-            // }
-            //}
-            
             
             const ORG = context.payload.organization.login;
             const REPO = context.payload.repository.name;
             const REPO_BASE_API_URL = `https://api.github.com/repos/${ORG}/${REPO}`;
             const ISSUE_LINK_REGEX = /\b(?:close[sd]?|fix(?:es|ed)?|resolve[sd]?)\b #[0-9]+ /gi;
-            let summaryMarkdown = '### Pull Request Submission Summary\n\n';
-            
-            generateCommentOnFail('no_issue_link');
-            
+                        
             core.info('Checking for issue links in Pull Request description');
             let matches = context.payload.pull_request.body.match(ISSUE_LINK_REGEX);
             if(!matches){
               core.setFailed('No Issue Links found');
-              generateCommentOnFail('no_issue_link');
+              generateCommentOnFail('no_link');
               return;
             } else {
               core.info('   --- Issue Links found');
-              summaryMarkdown += '* Check for existence of issue link(s) - :white_check_mark:\n';
+              commentMarkdown += '* Check for existence of issue link(s) - :white_check_mark:\n';
             }
 
             core.info('Checking that any found issue links reference the same issue number');
@@ -110,8 +64,31 @@ jobs:
               summaryMarkdown += '* Check that referenced issue number has been assigned to the Pull Request creator - :white_check_mark:\n';
             } else {
               core.setFailed(`Pull Request submitter '${context.payload.sender.login}' is currently not assigned to issue #${linkedIssueNumber}`);
+              errorMarkdown
               generateCommentOnFail('not_assignee');
               return;
             }
             
-            //generateSummary(summaryMarkdown);
+            ///////////////////////////////// HELPER FUNCTIONS ///////////////////////////////////////
+            
+            function generateCommentOnFail(reason, additionalInfo){
+              let markdown = '###There was a problem with your Pull Request submission';
+              
+              switch(reason){
+                case 'no_link':
+                  markdown = `${markdown}
+                              ###:x: No issue link found in Pull Request description
+                              The activity instructions required you to reference the issue for which you were submitting this pull request. 
+                              (Examples: Closes #15 or Fixes #10)
+                              Modify the above description of this Pull Request and add the required issue link.`
+                  break;
+              }
+              
+              //generate comment with provided markdown
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: markdown
+              })
+            }
